@@ -125,8 +125,43 @@ w = w[~np.isnan(w)]
 
 w.dtype()
 
-x = x[~numpy.isnan(x)]
 
+
+##############################################################################
+#total number of citations - violin plots
+##############################################################################
+
+print('Shape of data{}'.format(df.shape))
+df.head
+
+method_cols = np.arange(16, 215, 3)
+
+cit_no = []
+
+for i in range(np.size(df, 0)):
+    
+    row_temp = np.array(df.iloc[i,method_cols])
+    
+    row_temp = row_temp.astype('float')
+    row_temp = row_temp[~np.isnan(row_temp)]
+    
+    cit_no = np.append(cit_no, len(row_temp))
+
+
+
+            
+    
+    
+dict = {'cit_no': cit_no}
+
+data = pd.DataFrame.from_dict(dict)
+
+sns.set_style("ticks")
+my_pal2 = {"cit_no": 'green'}
+plt.figure()
+ax1 = sns.violinplot(data=data, palette=my_pal2)
+plt.title('Biology - number of citations per publication')
+plt.ylabel('number of citations')
 
 
 
