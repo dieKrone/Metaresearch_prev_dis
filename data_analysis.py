@@ -11,12 +11,14 @@ import matplotlib.colors
 import pickle
 import pandas as pd
 import matplotlib as mpl
+import seaborn as sns
 
 root = r'S:\Fakultaet\MFZ\NWFZ\AGdeHoz\Philipp\Data\Metaresearch'
-filename = r'\test_consensus.csv'
+filename_bio = r'\BiologyConsensusSheetCleaned.csv'
+filename_psych = r'\Psychiatry_Abstraction_List_Consensus.csv'
 
-df = pd.read_csv(root + filename, sep = ';', encoding=r'ISO-8859-1')
-
+df_bio = pd.read_csv(root + filename_bio, sep = ';', encoding=r'ISO-8859-1')
+df_psych = pd.read_csv(root + filename_psych, sep = ';', encoding=r'ISO-8859-1')
 
 col_reason = np.arange(2,201,3)
 
@@ -134,13 +136,18 @@ w.dtype()
 print('Shape of data{}'.format(df.shape))
 df.head
 
-method_cols = np.arange(16, 215, 3)
+fields = ['Neuroscience', 'Biology', 'Psychiatry']
+
+method_cols_bio = np.arange(18, np.size(df_psych, 1), 3)
+method_cols = np.arange(19, np.size(df_psych, 1), 3)
 
 cit_no = []
 
-for i in range(np.size(df, 0)):
+
+
+for i in range(np.size(df_psych, 0)):
     
-    row_temp = np.array(df.iloc[i,method_cols])
+    row_temp = np.array(df_psych.iloc[i,method_cols])
     
     row_temp = row_temp.astype('float')
     row_temp = row_temp[~np.isnan(row_temp)]
@@ -149,9 +156,6 @@ for i in range(np.size(df, 0)):
 
 
 
-            
-    
-    
 dict = {'cit_no': cit_no}
 
 data = pd.DataFrame.from_dict(dict)
@@ -162,6 +166,7 @@ plt.figure()
 ax1 = sns.violinplot(data=data, palette=my_pal2)
 plt.title('Biology - number of citations per publication')
 plt.ylabel('number of citations')
+
 
 
 
